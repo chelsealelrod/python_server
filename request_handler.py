@@ -1,15 +1,26 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from ANIMALS import ( get_all_animals,
-                      get_single_animal )
-                      
-from LOCATIONS import ( get_all_locations, 
-                        get_single_location )
+import json
 
-from CUSTOMERS import ( get_all_customers, 
-                        get_single_customer)
+from ANIMALS import ( 
+    get_all_animals,
+    get_single_animal,
+    create_animal
+)
 
-from EMPLOYEES import ( get_all_employees, 
-                        get_single_employee)
+from LOCATIONS import ( 
+    get_all_locations, 
+    get_single_location 
+)
+
+from CUSTOMERS import ( 
+    get_all_customers, 
+    get_single_customer
+)
+
+from EMPLOYEES import ( 
+    get_all_employees, 
+    get_single_employee
+)
 
 # Here's a class. It inherits from another class.
 # For now, think of a class as a container for functions that
@@ -63,46 +74,33 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Parse the URL and capture the tuple that is returned
         (resource, id) = self.parse_url(self.path)
         # Your new console.log() that outputs to the terminal
-        print(self.path)
+    
 
         if resource == "animals":
             if id is not None:
                 response = f"{get_single_animal(id)}"
-
-
-        # It's an if..else statement
-        if self.path == "/animals":
-            # In Python, this is a list of dictionaries
-            # In JavaScript, you would call it an array of objects
-            response = get_all_animals()
-        else:
-            response = []
+            else: 
+                response = f"{get_all_animals()}"
 
         if resource == "locations":
             if id is not None:
                 response  = f"{get_single_location(id)}"
-
-        if self.path == "/locations":
-            response = get_all_locations()
-        else:
-            response = []
+            else:
+                response = f"{get_all_locations()}"
 
         if resource == "customers":
             if id is not None: 
                 response = f"{get_single_customer(id)}"
         
-        if self.path == "/customers":
-            response = get_all_customers()
-        else:
-            response = []
+            else:
+                response = f"{get_all_customers()}"
+
         if resource == "employees":
             if id is not None:
                 response = f"{get_single_employee(id)}"
-
-            if self.path == "/employees":
-                response = get_all_employees()
             else:
-                response = []
+                response = f"{get_all_employees()}"
+    
 
 
         # This weird code sends a response back to the client
@@ -116,8 +114,19 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
+
         response = f"received post request:<br>{post_body}"
+        post_pody = json.loads(post_body)
+
+        (resource, id) = self.parse_url(self.path)
+
+        new_animal = None
+
+        if resource == "animals":
+            new_animal = create_animal(post_body)
+
         self.wfile.write(response.encode())
+
 
 
     # Here's a method on the class that overrides the parent's method.

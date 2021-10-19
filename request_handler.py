@@ -111,21 +111,22 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_POST(self):
         # Set response code to 'Created'
         self._set_headers(201)
-
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
 
-        response = f"received post request:<br>{post_body}"
-        post_pody = json.loads(post_body)
+        # Convert JSON string to a Python dictionary
+        post_body = json.loads(post_body)
 
+        # Parse the URL
         (resource, id) = self.parse_url(self.path)
-
+        
+        # Initialize new animal
         new_animal = None
 
         if resource == "animals":
             new_animal = create_animal(post_body)
 
-        self.wfile.write(response.encode())
+        self.wfile.write(f"{new_animal}".encode())
 
 
 

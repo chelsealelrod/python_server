@@ -55,3 +55,15 @@ INSERT INTO `Employee` VALUES (null, "Kristen Norris", "100 Main St", 1);
 INSERT INTO `Employee` VALUES (null, "Meg Ducharme", "404 Unknown Ct", 2);
 INSERT INTO `Employee` VALUES (null, "Hannah Hall", "204 Empty Ave", 1);
 INSERT INTO `Employee` VALUES (null, "Leah Hoefling", "200 Success Way", 2);
+
+
+-- Get only the animal rows where the `id` field value is 3
+SELECT
+    a.id,
+    a.name,
+    a.breed,
+    a.status,
+    a.location_id,
+    a.customer_id
+FROM animal a
+WHERE a.id = 3

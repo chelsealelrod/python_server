@@ -6,4 +6,3 @@ class Employee():
         self.address = address
         self.location_id = location_id
 
-new_customer = Employee(1, "Madi Peper", "35498 Madison Ave", 2)

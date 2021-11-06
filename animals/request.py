@@ -100,9 +100,7 @@ def get_all_animals():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # Animal class above.
-            animal = Animal(row['id'], row['name'], row['breed'],
-                            row['status'], row['location_id'],
-                            row['customer_id'])
+            animal = Animal(*row)
 
             animals.append(animal.__dict__)
 
@@ -163,7 +161,19 @@ def get_animals_by_location(location_id):
         dataset = db_cursor.fetchall()
 
         for row in dataset:
-            animal = Animal(row['id'], row['name'], row['breed'], row['status'] , row['location_id'], row['customer_id'])
+            animal = Animal(row['id'], row['name'], row['breed'],
+                            row['status'], row['location_id'], row['customer_id']
+                        )
             animals.append(animal.__dict__)
 
     return json.dumps(animals)
+
+
+def delete_animal(id):
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM animal
+        WHERE id = ?
+        """, (id, ))

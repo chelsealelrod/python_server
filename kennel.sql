@@ -50,6 +50,8 @@ INSERT INTO `Animal` VALUES (null, "Doodles", "Kennel", "Poodle", 3, 1);
 INSERT INTO `Animal` VALUES (null, "Daps", "Kennel", "Boxer", 2, 2);
 
 
+
+
 INSERT INTO `Employee` VALUES (null, "Madi Peper", "35498 Madison Ave", 1);
 INSERT INTO `Employee` VALUES (null, "Kristen Norris", "100 Main St", 1);
 INSERT INTO `Employee` VALUES (null, "Meg Ducharme", "404 Unknown Ct", 2);
@@ -67,3 +69,15 @@ SELECT
     a.customer_id
 FROM animal a
 WHERE a.id = 3
+
+ select
+                a.id,
+                a.name,
+                a.breed,
+                a.status,
+                a.location_id,
+                a.customer_id
+            from Animal a
+            WHERE a.id = 6;
+
+SELECT * from animal

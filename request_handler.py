@@ -7,7 +7,8 @@ from ANIMALS import (
     create_animal,
     delete_animal,
     update_animal,
-    get_animals_by_location
+    get_animals_by_location,
+    delete_animal
 )
 
 from LOCATIONS import ( 
@@ -27,7 +28,8 @@ from CUSTOMERS import (
 from EMPLOYEES import ( 
     get_all_employees, 
     get_single_employee,
-    create_employee
+    create_employee,
+    get_employees_by_location
 )
 
 # Here's a class. It inherits from another class.
@@ -101,6 +103,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_animal(id)}"
                 else:
                     response = f"{get_all_animals()}"
+                    
             elif resource == "customers":
                 if id is not None:
                     response = f"{get_single_customer(id)}"
@@ -131,10 +134,13 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "email" and resource == "customers":
                 response = get_customers_by_email(value)
 
-            if key == "location" and resource == "animals":
+            if key == "location_id" and resource == "animals":
                 response = get_animals_by_location(value)
+            
+            if key == "location_id" and resource == "employees":
+                response = get_employees_by_location(value)
 
-            self.wfile.write(response.encode())
+        self.wfile.write(f"{response}".encode())
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any POST request.
